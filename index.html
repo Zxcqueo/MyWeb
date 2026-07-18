@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typewriter Lyrics</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:Arial, Helvetica, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+}
+
+#container{
+    text-align:center;
+}
+
+#lyrics{
+    width:90%;
+    max-width:900px;
+    margin:auto;
+    font-size:2rem;
+    line-height:1.6;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+
+button{
+    margin-top:30px;
+    padding:12px 28px;
+    font-size:18px;
+    cursor:pointer;
+    border:none;
+    border-radius:8px;
+    background:#fff;
+    color:#000;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+button:disabled{
+    opacity:.5;
+    cursor:default;
+}
+
+.cursor{
+    display:inline-block;
+    width:3px;
+    height:1em;
+    background:#fff;
+    margin-left:3px;
+    animation:blink .8s infinite;
+    vertical-align:bottom;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+  <!-- Place this inside the <body> -->
+<audio id="bgMusic" preload="auto">
+    <source controls src="Recorded voice.mp3" type="audio/mpeg">
+    <source controls src="Recorded voice.mp3" type="audio/wav">
+    Your browser does not support the audio element.
+</audio>
+</body>
+
+<body>
+<script>
+// =========================
+// MUSIC SETTINGS
+// =========================
+const music = document.getElementById("bgMusic");
+
+music.volume = 2.0;   // 0.0 to 1.0
+music.loop = false;   // true = repeat music
+
+// =========================
+// START BUTTON
+// =========================
+startBtn.addEventListener("click", async () => {
+    startBtn.disabled = true;
+    startBtn.style.display = "none";
+
+    // Reset music to the beginning
+    music.currentTime = 0;
+
+    // Play music
+    try {
+        await music.play();
+    } catch (err) {
+        console.log("Music couldn't play:", err);
+    }
+
+    // Start lyrics at the exact same click
+    text.textContent = "";
+    line = 0;
+    typeLine(0);
+});
+</script>
+
+<div id="container">
+    <div id="lyrics">
+        <span id="text"></span><span class="cursor"></span>
+    </div>
+
+    <button id="startBtn">Start</button>
+</div>
+
+<script>
+// Edit your lyrics and delays here.
+const lyrics = [
+    { text: "Hey jel, If you're reading this", delay: 2000 },
+    { text: "meaning i finally have the courage to tell you", delay: 1000 },
+    { text: "how i feel after all the thoughts i have in mind,", delay: 1500 },
+    { text: "So i'll start with this,", delay: 1200 },
+    { text: "I have so many things untold thoughts", delay: 1200 },
+    { text: "na naiipon ng naiipon sa isip ko all through the time", delay: 1200 },
+    { text: "and probably dikopato nasasabi sakanila,", delay: 1200 },
+    { text: "idk, maybe naisip ko lang na maybe", delay: 1200 },
+    { text: "magandang itago ko nalang talaga to sa sarili ko", delay: 1200 },
+    { text: "because di naman ako pala open up sakanila inperson e", delay: 1200 },
+    { text: "i just wrote all of it down in my notes or somewhere", delay: 1200 },
+    { text: "i can freely write all of it down.", delay: 1200 },
+    { text: "Until i found out to myself na you're having a hard time pala na i confront ako about this??", delay: 1200 },
+    { text: "so i planned na yung mag rreach out sayo about this", delay: 1200 },
+    { text: "and maybe we can talk, sabihin yung mga dapat sabihin", delay: 1200 },
+    { text: "para mawala narin yung gumugulo sa isip mo ren.", delay: 1200 },
+    { text: "Sorry talaga kung ngayun ngayun lang ako nakapag reach out sayo neto", delay: 1200 },
+    { text: "not because im shy or anything", delay: 1200 },
+    { text: "I usually dont open things like this especially when it comes to these stuffs", delay: 1200 },
+    { text: "but thankfully may pumasok sa isip ko", delay: 1200 },
+    { text: "na  i think its really time", delay: 1200 },
+    { text: "para sabihin narin sayo tong mga to :)", delay: 1200 },
+
+];
+
+const typingSpeed = 60;
+
+const text = document.getElementById("text");
+const startBtn = document.getElementById("startBtn");
+
+let line = 0;
+
+function typeLine(index){
+    if(index < lyrics[line].text.length){
+        text.textContent += lyrics[line].text.charAt(index);
+        setTimeout(() => typeLine(index + 1), typingSpeed);
+    }else{
+        setTimeout(() => {
+            line++;
+
+            if(line < lyrics.length){
+                text.textContent = "";
+                typeLine(0);
+            }
+        }, lyrics[line].delay);
+    }
+}
+
+startBtn.addEventListener("click", () => {
+    startBtn.disabled = true;
+    startBtn.style.display = "none";
+    text.textContent = "";
+    line = 0;
+    typeLine(0);
+});
+</script>
+
+</body>
+</html>
